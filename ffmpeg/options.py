@@ -40,7 +40,7 @@ class Options:
 
     def input(
         self,
-        url: Union[str, os.PathLike],
+        url: Union[str, os.PathLike[str]],
         options: Optional[dict[str, Optional[types.Option]]] = None,
         **kwargs: Optional[types.Option],
     ):
@@ -53,7 +53,7 @@ class Options:
 
     def output(
         self,
-        url: Union[str, os.PathLike],
+        url: Union[str, os.PathLike[str]],
         options: Optional[dict[str, Optional[types.Option]]] = None,
         **kwargs: Optional[types.Option],
     ):

@@ -59,7 +59,7 @@ class FFmpeg(EventEmitter):
 
     def input(
         self,
-        url: Union[str, os.PathLike],
+        url: Union[str, os.PathLike[str]],
         options: Optional[dict[str, Optional[types.Option]]] = None,
         **kwargs: Optional[types.Option],
     ) -> Self:
@@ -102,7 +102,7 @@ class FFmpeg(EventEmitter):
 
     def output(
         self,
-        url: Union[str, os.PathLike],
+        url: Union[str, os.PathLike[str]],
         options: Optional[dict[str, Optional[types.Option]]] = None,
         **kwargs: Optional[types.Option],
     ) -> Self:
