@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Callable, Optional, Union
+from typing import Any, Awaitable, Callable, Final, Optional, Protocol, TypeVar, Union
 
-from typing_extensions import Protocol, Self, overload
+from typing_extensions import Self, TypeAlias
 
 from ffmpeg import types
 
+SyncExecute: TypeAlias = Callable[[Optional[types.Stream], Optional[float]], bytes]
+AsyncExecute: TypeAlias = Callable[[Optional[types.AsyncStream], Optional[float]], Awaitable[bytes]]
+ExecuteType_co = TypeVar("ExecuteType_co", SyncExecute, AsyncExecute, covariant=True)
 
-class FFmpegProtocol(Protocol):
+
+class FFmpegProtocol(Protocol[ExecuteType_co]):
     def __init__(self, executable: str = "ffmpeg"): ...
 
     @property
@@ -30,17 +34,7 @@ class FFmpegProtocol(Protocol):
         **kwargs: Optional[types.Option],
     ) -> Self: ...
 
-    @overload
-    def execute(
-        self,
-        stream: Optional[types.Stream] = None,
-    ) -> bytes: ...
-
-    @overload
-    async def execute(
-        self,
-        stream: Optional[types.AsyncStream] = None,
-    ) -> bytes: ...
+    execute: Final[ExecuteType_co]
 
     def terminate(self): ...
 
